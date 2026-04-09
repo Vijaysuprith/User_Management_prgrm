@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface UserService {
 
-    UserDTO registerUser(UserDTO dto, String password);
+    UserDTO registerUser(UserDTO dto);
 
     UserDTO getUserByEmail(String email);
 

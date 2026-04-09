@@ -18,26 +18,28 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    // Convert Entity → DTO
     private UserDTO toDTO(User user) {
         UserDTO dto = new UserDTO();
         dto.setUserId(user.getUserId());
         dto.setUsername(user.getUsername());
         dto.setEmail(user.getEmail());
         dto.setRole(user.getRole());
+        dto.setDob(user.getDob());
+        dto.setAddress(user.getAddress());
         return dto;
     }
 
-    // Register
     @Override
-    public UserDTO registerUser(UserDTO dto, String password) {
+    public UserDTO registerUser(UserDTO dto) {
 
         User user = new User(
                 null,
                 dto.getUsername(),
                 dto.getEmail(),
-                password,
+                dto.getPassword(),
                 dto.getRole() != null ? dto.getRole() : Role.USER,
+                dto.getDob(),
+                dto.getAddress(),
                 LocalDateTime.now(),
                 LocalDateTime.now()
         );
@@ -45,14 +47,12 @@ public class UserServiceImpl implements UserService {
         return toDTO(userRepository.save(user));
     }
 
-    // Get by Email
     @Override
     public UserDTO getUserByEmail(String email) {
         User user = userRepository.findByEmail(email).orElseThrow();
         return toDTO(user);
     }
 
-    // Get All
     @Override
     public List<UserDTO> getAllUsers() {
         return userRepository.findAll()
@@ -61,20 +61,21 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
-    // Update
     @Override
     public UserDTO updateUser(Integer id, UserDTO dto) {
+
         User user = userRepository.findById(id).orElseThrow();
 
         user.setUsername(dto.getUsername());
         user.setEmail(dto.getEmail());
         user.setRole(dto.getRole());
+        user.setDob(dto.getDob());
+        user.setAddress(dto.getAddress());
         user.setUpdatedAt(LocalDateTime.now());
 
         return toDTO(userRepository.save(user));
     }
 
-    // Delete
     @Override
     public void deleteUser(Integer id) {
         userRepository.deleteById(id);

@@ -2,6 +2,7 @@ package com.ums.entity;
 
 import com.ums.enums.Role;
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,18 +20,25 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    private LocalDate dob;
+
+    @Column(length = 500)
+    private String address;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    // 🔥 Constructor (like your reference)
     public User(Integer userId, String username, String email, String password,
-                Role role, LocalDateTime createdAt, LocalDateTime updatedAt) {
+                Role role, LocalDate dob, String address,
+                LocalDateTime createdAt, LocalDateTime updatedAt) {
 
         this.userId = userId;
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.dob = dob;
+        this.address = address;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -38,6 +46,7 @@ public class User {
     public User() {}
 
     // Getters & Setters
+
     public Integer getUserId() { return userId; }
     public void setUserId(Integer userId) { this.userId = userId; }
 
@@ -52,6 +61,12 @@ public class User {
 
     public Role getRole() { return role; }
     public void setRole(Role role) { this.role = role; }
+
+    public LocalDate getDob() { return dob; }
+    public void setDob(LocalDate dob) { this.dob = dob; }
+
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
