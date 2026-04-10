@@ -1,5 +1,6 @@
 package com.ums.service;
 
+import com.ums.dto.LoginDTO;
 import com.ums.dto.UserDTO;
 import com.ums.entity.User;
 import java.util.List;
@@ -19,4 +20,6 @@ public interface UserService {
     String sendOtp(String email);
 
     String resetPassword(String email, String otp, String newPassword);
+    
+    String login(LoginDTO dto);
 }
