@@ -1,6 +1,7 @@
 package com.ums.controller;
 
 import com.ums.dto.UserDTO;
+import com.ums.entity.User;
 import com.ums.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,35 +11,38 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin   // 🔥 IMPORTANT for frontend
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserService service;
 
     @PostMapping("/register")
-    public UserDTO register(@RequestBody UserDTO dto) {
-        return userService.registerUser(dto);
-    }
-
-    @GetMapping("/search")
-    public UserDTO getUser(@RequestParam String email) {
-        return userService.getUserByEmail(email);
+    public String register(@RequestBody UserDTO dto) {
+        return service.register(dto);
     }
 
     @GetMapping("/all")
-    public List<UserDTO> getAll() {
-        return userService.getAllUsers();
+    public List<User> all() {
+        return service.getAll();
     }
 
-    @PutMapping("/{id}")
-    public UserDTO update(@PathVariable Integer id,
-                          @RequestBody UserDTO dto) {
-        return userService.updateUser(id, dto);
+    @GetMapping("/email")
+    public User get(@RequestParam String email) {
+        return service.getByEmail(email);
     }
 
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable Integer id) {
-        userService.deleteUser(id);
-        return "User Deleted Successfully";
+    // 🔥 FORGOT PASSWORD
+    @PostMapping("/forgot")
+    public String forgot(@RequestParam String email) {
+        return service.sendOtp(email);
+    }
+
+    // 🔥 RESET PASSWORD
+    @PostMapping("/reset")
+    public String reset(@RequestParam String email,
+                        @RequestParam String otp,
+                        @RequestParam String newPassword) {
+        return service.resetPassword(email, otp, newPassword);
     }
 }

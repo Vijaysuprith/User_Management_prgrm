@@ -1,17 +1,22 @@
 package com.ums.service;
 
 import com.ums.dto.UserDTO;
+import com.ums.entity.User;
 import java.util.List;
 
 public interface UserService {
 
-    UserDTO registerUser(UserDTO dto);
+    String register(UserDTO dto);
 
-    UserDTO getUserByEmail(String email);
+    List<User> getAll();
 
-    List<UserDTO> getAllUsers();
+    User getByEmail(String email);
 
-    UserDTO updateUser(Integer id, UserDTO dto);
+    String update(Integer id, UserDTO dto);
 
-    void deleteUser(Integer id);
+    String delete(Integer id);
+
+    String sendOtp(String email);
+
+    String resetPassword(String email, String otp, String newPassword);
 }
